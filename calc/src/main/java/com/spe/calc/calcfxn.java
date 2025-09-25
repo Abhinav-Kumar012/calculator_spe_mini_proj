@@ -31,7 +31,7 @@ public class calcfxn implements calculator{
     @Override
     public double log(double a) throws ArithmeticException {
         if(a < 0){
-            throw new ArithmeticException("log of negative number is bot defined");
+            throw new ArithmeticException("log of negative number is not defined");
         }
         return Math.log(a);
     }
