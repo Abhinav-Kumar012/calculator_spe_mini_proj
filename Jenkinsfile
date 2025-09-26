@@ -30,7 +30,7 @@ pipeline{
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
-                        docker.image("${DOCKERHUB_IMAGE}").push()
+                        docker.image("${DOCKER_IMAGE}").push()
                     }
                 }
             }
