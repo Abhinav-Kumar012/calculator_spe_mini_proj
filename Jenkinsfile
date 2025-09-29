@@ -19,14 +19,14 @@ pipeline{
                 }
             }
         }
-        stage('Build Docker Image') {
+        stage('Build Docker Image'){
             steps {
                 script {
                     docker.build("${DOCKER_IMAGE}", ".")
                 }
             }
         }
-        stage('Push to DockerHub') {
+        stage('Push to DockerHub'){
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
@@ -34,6 +34,21 @@ pipeline{
                     }
                 }
             }
+        }
+        stage('Use ansible to deploy'){
+            steps{
+                dir('ansible'){
+                    sh 'ansible-playbook -i inventory.ini deploy.yml'
+                }
+            }
+        }
+    }
+    post{
+        success{
+            echo "successfully executed the pipeline"
+        }
+        failure{
+            echo "failed to execute the pipeline"
         }
     }
 }
