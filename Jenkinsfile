@@ -5,6 +5,7 @@ pipeline{
         IMAGE_NAME = "calc-spe"
         IMAGE_TAG = "latest"
         DOCKER_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
+        ANSIBLE_HOME = "/var/lib/jenkins/.local/bin"
     }
     stages{
         stage('checkout'){
@@ -38,7 +39,9 @@ pipeline{
         stage('Use ansible to deploy'){
             steps{
                 dir('ansible'){
-                    sh 'ansible-playbook -i inventory.ini deploy.yml'
+                    withEnv(["PATH=${ANSIBLE_HOME}:${env.PATH}"]) {
+                        sh 'ansible-playbook -i inventory.ini deploy.yml'
+                    }
                 }
             }
         }
