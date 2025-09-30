@@ -6,6 +6,7 @@ pipeline{
         IMAGE_TAG = "latest"
         DOCKER_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
         ANSIBLE_HOME = "/var/lib/jenkins/.local/bin"
+        DOCKERFILE = "Dockerfile.native"
     }
     stages{
         stage('checkout'){
@@ -23,7 +24,7 @@ pipeline{
         stage('Build Docker Image'){
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE}", ".")
+                    docker.build("${DOCKER_IMAGE}", "-f ${DOCKERFILE} .")
                 }
             }
         }

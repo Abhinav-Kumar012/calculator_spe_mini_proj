@@ -1,10 +1,15 @@
 FROM ghcr.io/graalvm/native-image-community:21-muslib AS build
+
 WORKDIR /app
-COPY /calc .
+
+COPY calc/ .
 
 RUN ./mvnw -B clean package
+
 RUN native-image --static --libc=musl -cp target/calc-1.0-SNAPSHOT.jar com.spe.calc.Main calc
 
 FROM scratch
+
 COPY --from=build /app/calc /calc
+
 ENTRYPOINT ["/calc"]
