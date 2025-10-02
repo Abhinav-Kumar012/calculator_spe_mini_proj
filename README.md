@@ -1,3 +1,2 @@
 # calculator_spe_mini_proj
-SPE mini project calculator \\
-I'm done ig 1 3
+pease refer to [report_imt2022079.pdf](./report_imt2022079.pdf) for instructions
