@@ -21,7 +21,7 @@
       community.docker.docker_container:
         name: "{{ calc_container }}"
         image: "{{ calc_image_name }}:{{ calc_image_tag }}"
-        state: present
+        state: started
         tty: true
         interactive: true
         detach: true
