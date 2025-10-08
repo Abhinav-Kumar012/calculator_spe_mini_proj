@@ -10,7 +10,7 @@ pipeline{
         DOCKER_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
         ANSIBLE_HOME = "/var/lib/jenkins/.local/bin"
         DOCKERFILE = "Dockerfile.native"
-        EMAIL_ID_TO_SEND = "osvanilla30@gmail.com"
+        EMAIL_ID_TO_SEND = "osvanilla30+jenkins@gmail.com"
         EMAIL_ID_SENDER = "osvanilla30@gmail.com"
     }
     stages{
