@@ -10,8 +10,8 @@ pipeline{
         DOCKER_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
         ANSIBLE_HOME = "/var/lib/jenkins/.local/bin"
         DOCKERFILE = "Dockerfile.native"
-        EMAIL_ID_TO_SEND = "osvanilla30+jenkins@gmail.com"
-        EMAIL_ID_SENDER = "osvanilla30@gmail.com"
+        EMAIL_ID_TO_SEND = "osvanilla30@gmail.com"
+        // EMAIL_ID_SENDER = "osvanilla30@gmail.com"
     }
     stages{
         stage('checkout'){
@@ -55,24 +55,24 @@ pipeline{
     post{
         success{
             echo "successfully executed the pipeline"
-            emailext(
+            mail(
                 to : "${EMAIL_ID_TO_SEND}",
-                from : "${EMAIL_ID_SENDER}",
+                // from : "${EMAIL_ID_SENDER}",
                 subject: "successfully executed the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body : """
                 Build successful. Please check the console output.
                 Job: ${env.JOB_NAME}
                 Build Number: ${env.BUILD_NUMBER}
                 URL : ${env.BUILD_URL}
-                """,
-                mimeType : 'text/plain'
+                """
+                // mimeType : 'text/plain'
             )
         }
         failure{
             echo "failed to execute the pipeline"
-            emailext(
+            mail(
                 to : "${EMAIL_ID_TO_SEND}",
-                from : "${EMAIL_ID_SENDER}",
+                // from : "${EMAIL_ID_SENDER}",
                 subject: "failed to execute the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body : """
                 Build failed. Please check the console output.
@@ -80,7 +80,7 @@ pipeline{
                 Build Number: ${env.BUILD_NUMBER}
                 URL : ${env.BUILD_URL}
                 """,
-                mimeType : 'text/plain'
+                // mimeType : 'text/plain'
             )
         }
         cleanup{
