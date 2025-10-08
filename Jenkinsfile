@@ -7,6 +7,10 @@ pipeline{
         DOCKER_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
         ANSIBLE_HOME = "/var/lib/jenkins/.local/bin"
         DOCKERFILE = "Dockerfile.native"
+        EMAIL_ID_SENDER = "osvanilla30@gmail.com"
+    }
+    triggers {
+        githubPush()  
     }
     stages{
         stage('checkout'){
@@ -53,6 +57,19 @@ pipeline{
         }
         failure{
             echo "failed to execute the pipeline"
+            emailext(
+                subject: "failed to execute the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body : """
+                Build failed. Please check the console output. <br>
+                Job: ${env.JOB_NAME}<br>
+                Build Number: ${env.BUILD_NUMBER}<br>
+                URL : ${env.BUILD_URL}
+                """,
+                to : "${EMAIL_ID_SENDER}"
+            )
+        }
+        always{
+            cleanWs()
         }
     }
 }
