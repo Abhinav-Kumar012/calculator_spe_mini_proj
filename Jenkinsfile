@@ -60,9 +60,9 @@ pipeline{
                 from : "${EMAIL_ID_SENDER}",
                 subject: "successfully executed the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body : """
-                Build successful. Please check the console output.\n
-                Job: ${env.JOB_NAME}\n
-                Build Number: ${env.BUILD_NUMBER}\n
+                Build successful. Please check the console output.
+                Job: ${env.JOB_NAME}
+                Build Number: ${env.BUILD_NUMBER}
                 URL : ${env.BUILD_URL}
                 """,
                 mimeType : 'text/plain'
@@ -75,15 +75,15 @@ pipeline{
                 from : "${EMAIL_ID_SENDER}",
                 subject: "failed to execute the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body : """
-                Build failed. Please check the console output.\n
-                Job: ${env.JOB_NAME}\n
-                Build Number: ${env.BUILD_NUMBER}\n
+                Build failed. Please check the console output.
+                Job: ${env.JOB_NAME}
+                Build Number: ${env.BUILD_NUMBER}
                 URL : ${env.BUILD_URL}
                 """,
                 mimeType : 'text/plain'
             )
         }
-        always{
+        cleanup{
             cleanWs()
         }
     }
