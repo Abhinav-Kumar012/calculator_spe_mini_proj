@@ -65,7 +65,7 @@ pipeline{
                 Build Number: ${env.BUILD_NUMBER}
                 URL : ${env.BUILD_URL}
                 """,
-                mimetype : 'text/plain'
+                mimeType : 'text/plain'
             )
         }
         failure{
@@ -80,7 +80,7 @@ pipeline{
                 Build Number: ${env.BUILD_NUMBER}<br>
                 URL : ${env.BUILD_URL}
                 """,
-                mimetype : 'text/plain'
+                mimeType : 'text/plain'
             )
         }
         always{
