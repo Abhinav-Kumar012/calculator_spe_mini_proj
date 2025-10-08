@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    triggers {
+        githubPush()  
+    }
     environment {
         DOCKERHUB_USER = 'vanos007'
         IMAGE_NAME = "calc-spe"
@@ -7,10 +10,7 @@ pipeline{
         DOCKER_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}"
         ANSIBLE_HOME = "/var/lib/jenkins/.local/bin"
         DOCKERFILE = "Dockerfile.native"
-        EMAIL_ID_SENDER = "osvanilla30@gmail.com"
-    }
-    triggers {
-        githubPush()  
+        EMAIL_ID_TO_SEND = "osvanilla30@gmail.com"
     }
     stages{
         stage('checkout'){
@@ -54,6 +54,16 @@ pipeline{
     post{
         success{
             echo "successfully executed the pipeline"
+            emailext(
+                subject: "successfully executed the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body : """
+                Build successful. Please check the console output. <br>
+                Job: ${env.JOB_NAME}<br>
+                Build Number: ${env.BUILD_NUMBER}<br>
+                URL : ${env.BUILD_URL}
+                """,
+                to : "${EMAIL_ID_TO_SEND}"
+            )
         }
         failure{
             echo "failed to execute the pipeline"
@@ -65,7 +75,7 @@ pipeline{
                 Build Number: ${env.BUILD_NUMBER}<br>
                 URL : ${env.BUILD_URL}
                 """,
-                to : "${EMAIL_ID_SENDER}"
+                to : "${EMAIL_ID_TO_SEND}"
             )
         }
         always{
