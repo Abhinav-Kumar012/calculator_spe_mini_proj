@@ -11,6 +11,7 @@ pipeline{
         ANSIBLE_HOME = "/var/lib/jenkins/.local/bin"
         DOCKERFILE = "Dockerfile.native"
         EMAIL_ID_TO_SEND = "osvanilla30@gmail.com"
+        EMAIL_ID_SENDER = "osvanilla30@gmail.com"
     }
     stages{
         stage('checkout'){
@@ -55,19 +56,23 @@ pipeline{
         success{
             echo "successfully executed the pipeline"
             emailext(
+                to : "${EMAIL_ID_TO_SEND}",
+                from : "${EMAIL_ID_SENDER}",
                 subject: "successfully executed the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body : """
                 Build successful. Please check the console output. <br>
-                Job: ${env.JOB_NAME}<br>
-                Build Number: ${env.BUILD_NUMBER}<br>
+                Job: ${env.JOB_NAME}
+                Build Number: ${env.BUILD_NUMBER}
                 URL : ${env.BUILD_URL}
                 """,
-                to : "${EMAIL_ID_TO_SEND}"
+                mimetype : 'text/plain'
             )
         }
         failure{
             echo "failed to execute the pipeline"
             emailext(
+                to : "${EMAIL_ID_TO_SEND}",
+                from : "${EMAIL_ID_SENDER}",
                 subject: "failed to execute the pipeline in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body : """
                 Build failed. Please check the console output. <br>
@@ -75,7 +80,7 @@ pipeline{
                 Build Number: ${env.BUILD_NUMBER}<br>
                 URL : ${env.BUILD_URL}
                 """,
-                to : "${EMAIL_ID_TO_SEND}"
+                mimetype : 'text/plain'
             )
         }
         always{
